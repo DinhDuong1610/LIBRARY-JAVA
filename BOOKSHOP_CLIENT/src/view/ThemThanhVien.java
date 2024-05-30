@@ -13,16 +13,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import model.Model_KhachHang;
+import model.Model_NguoiMuon;
 import service.Service;
 
 public class ThemThanhVien extends JPanel{
 	private JDialog dialog;
 	private JTextField tf_ten;
 	private JTextField tf_sdt;
-	private JTextField tf_tongChi;
-	private JTextField tf_diem;
-	private JComboBox cb_hangThanhVien;
+	private JTextField tf_damuon;
+	private JTextField tf_dangmuon;
 	
 	public ThemThanhVien(JDialog dialog) {
 		this.dialog = dialog;
@@ -30,7 +29,7 @@ public class ThemThanhVien extends JPanel{
 		setSize(650, 400);
 		setLayout(null);
 		
-		JLabel lblTnKhchHng = new JLabel("Tên khách hàng");
+		JLabel lblTnKhchHng = new JLabel("Tên thành viên");
 		lblTnKhchHng.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTnKhchHng.setBounds(86, 83, 177, 30);
 		add(lblTnKhchHng);
@@ -52,39 +51,31 @@ public class ThemThanhVien extends JPanel{
 		tf_sdt.setBounds(273, 135, 283, 30);
 		add(tf_sdt);
 		
-		JLabel lblTngChi = new JLabel("Tổng chi");
+		JLabel lblTngChi = new JLabel("SL đã mượn");
 		lblTngChi.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTngChi.setBounds(86, 186, 154, 30);
 		add(lblTngChi);
 		
-		tf_tongChi = new JTextField();
-		tf_tongChi.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_tongChi.setColumns(10);
-		tf_tongChi.setBounds(273, 186, 283, 30);
-		add(tf_tongChi);
+		tf_damuon = new JTextField();
+		tf_damuon.setText("0");
+		tf_damuon.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_damuon.setColumns(10);
+		tf_damuon.setBounds(273, 186, 283, 30);
+		add(tf_damuon);
 		
-		JLabel lblimTchLy = new JLabel("Điểm tích lũy");
+		JLabel lblimTchLy = new JLabel("SL đang mượn");
 		lblimTchLy.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblimTchLy.setBounds(86, 240, 154, 30);
 		add(lblimTchLy);
 		
-		tf_diem = new JTextField();
-		tf_diem.setText("0");
-		tf_diem.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_diem.setColumns(10);
-		tf_diem.setBounds(273, 240, 283, 30);
-		add(tf_diem);
-		
-		JLabel lblHngThnhVin = new JLabel("Hạng thành viên");
-		lblHngThnhVin.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblHngThnhVin.setBounds(86, 289, 177, 30);
-		add(lblHngThnhVin);
+		tf_dangmuon = new JTextField();
+		tf_dangmuon.setText("0");
+		tf_dangmuon.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_dangmuon.setColumns(10);
+		tf_dangmuon.setBounds(273, 240, 283, 30);
+		add(tf_dangmuon);
 		
 		String[] itemHang = { "Đồng", "Bạc", "Vàng", "Kim cương" };
-		cb_hangThanhVien = new JComboBox<>(itemHang);
-		cb_hangThanhVien.setFont(new Font("Tahoma", Font.BOLD, 20));
-		cb_hangThanhVien.setBounds(273, 289, 283, 30);
-		add(cb_hangThanhVien);
 		
 		JLabel lblNewLabel_1 = new JLabel("THÊM THÀNH VIÊN");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -97,17 +88,16 @@ public class ThemThanhVien extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				String ten = tf_ten.getText();
 				String sdt = tf_sdt.getText();
-				int diem = Integer.parseInt(tf_diem.getText());
-				int tongChi = Integer.parseInt(tf_tongChi.getText());
-				String hang = cb_hangThanhVien.getSelectedItem().toString();
+				int damuon = Integer.parseInt(tf_dangmuon.getText());
+				int dangmuon = Integer.parseInt(tf_damuon.getText());
 				
-				Model_KhachHang khachHang = new Model_KhachHang(0, ten, sdt, tongChi, diem, hang);
+				Model_NguoiMuon khachHang = new Model_NguoiMuon(0, ten, sdt, damuon, dangmuon);
 				Service.getInstance().themThanhVien(khachHang.toJsonObject("themThanhVien"));
 				dialog.dispose();
 			}
 		});
 		bt_them.setFont(new Font("Tahoma", Font.BOLD, 25));
-		bt_them.setBounds(247, 340, 168, 36);
+		bt_them.setBounds(247, 319, 168, 36);
 		add(bt_them);
 	}
 }

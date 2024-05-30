@@ -15,8 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import model.Model_DonMua;
-import model.Model_KhachHang;
+import model.Model_PhieuMuon;
+import model.Model_NguoiMuon;
 import model.Model_Register;
 import model.Model_Sach;
 import view.Main;
@@ -87,6 +87,7 @@ public class Service {
 	    		main.getLogin().checkLogin(jsonData.getBoolean("check"));
 	    	}
 	    	else if(jsonData.getString("type").equals("listSach")) {
+	    		main.getBody().getListSach().removeAll();
 	    		JSONArray jsonArray = jsonData.getJSONArray("jsonArray");
 	            for (int i = 0; i < jsonArray.length(); i++) {
 	                JSONObject json = jsonArray.getJSONObject(i);
@@ -100,15 +101,23 @@ public class Service {
 	    		main.getMenuLeft().update(nhanVien, quay);
 	    	}
 	    	else if(jsonData.getString("type").equals("tracuu_true")) {
-	    		Model_KhachHang khachhang = new Model_KhachHang(jsonData);
+	    		Model_NguoiMuon khachhang = new Model_NguoiMuon(jsonData);
 	    		main.getMenuLeft().tracuu(khachhang);
 	    	}
 	    	else if(jsonData.getString("type").equals("tracuu_false")) {
-	            JOptionPane.showMessageDialog(null, "Khách hàng chưa là thành viên của shop!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	            JOptionPane.showMessageDialog(null, "Khách hàng chưa có trong lịch sử thư viện!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 	    	}
 	    	else if(jsonData.getString("type").equals("themThanhVien")) {
-	    		Model_KhachHang khachhang = new Model_KhachHang(jsonData);
+	    		Model_NguoiMuon khachhang = new Model_NguoiMuon(jsonData);
 	    		main.getMenuLeft().tracuu(khachhang);
+	    	}
+	    	else if(jsonData.getString("type").equals("listSachMuon")) {
+	    		JSONArray jsonArray = jsonData.getJSONArray("jsonArray");
+	            for (int i = 0; i < jsonArray.length(); i++) {
+	                JSONObject json = jsonArray.getJSONObject(i);
+	                Model_PhieuMuon phieu = new Model_PhieuMuon(json);
+	                main.getMenuLeft().getPhieutraList().add(phieu);
+		    	}
 	    	}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -200,15 +209,16 @@ public class Service {
         }).start();  
     }
     
-    public void xuatHoaDonSach(ArrayList<Model_DonMua> donmuaList) {
+    public void xuatHoaDonSach(ArrayList<Model_PhieuMuon> phieumuonList) {
         JSONArray jsonArray = new JSONArray();
-        for(Model_DonMua donmua : donmuaList) { 
-        	jsonArray.put(donmua.toJsonObject("xuatHoaDonSach"));
+        for(Model_PhieuMuon phieumuon : phieumuonList) { 
+        	jsonArray.put(phieumuon.toJsonObject("xuatHoaDonSach"));
         }
         JSONObject jsonData = new JSONObject();
         try {
 			jsonData.put("type", "xuatHoaDonSach");
 			jsonData.put("jsonArray", jsonArray);
+			System.out.println(jsonData.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -223,7 +233,29 @@ public class Service {
         }).start();  
     }
     
-    
+    public void traSach(ArrayList<Model_PhieuMuon> traSachList) {
+        JSONArray jsonArray = new JSONArray();
+        for(Model_PhieuMuon phieu : traSachList) { 
+        	jsonArray.put(phieu.toJsonObject("traSach"));
+        }
+        JSONObject jsonData = new JSONObject();
+        try {
+			jsonData.put("type", "traSach");
+			jsonData.put("jsonArray", jsonArray);
+			System.out.println(jsonData.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+        new Thread(() -> {
+            try {
+                OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8);
+                writer.write(jsonData.toString() + "\n");
+                writer.flush();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        }).start();  
+    }
  
     
 

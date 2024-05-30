@@ -17,7 +17,7 @@ import java.io.File;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import model.Model_KhachHang;
+import model.Model_NguoiMuon;
 import model.Model_NhanVien;
 import model.Model_Sach;
 
@@ -112,9 +112,8 @@ public class XMLExporter {
                 createElementWithValue(doc, sachElement, "ten", sach.getTen());
                 createElementWithValue(doc, sachElement, "theLoai", sach.getTheLoai());
                 createElementWithValue(doc, sachElement, "tacGia", sach.getTacGia());
-                createElementWithValue(doc, sachElement, "slTonKho", String.valueOf(sach.getSlTonKho()));
-                createElementWithValue(doc, sachElement, "slDaBan", String.valueOf(sach.getSlDaBan()));
-                createElementWithValue(doc, sachElement, "donGia", String.valueOf(sach.getDonGia()));
+                createElementWithValue(doc, sachElement, "hienCo", String.valueOf(sach.getSlHienCo()));
+                createElementWithValue(doc, sachElement, "daMuon", String.valueOf(sach.getSlDaMuon()));
             }
             
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -130,7 +129,7 @@ public class XMLExporter {
         }
     }
     
-    public static void exportKhachHangListToXML(List<Model_KhachHang> khachHangList) {
+    public static void exportKhachHangListToXML(List<Model_NguoiMuon> khachHangList) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Chọn nơi lưu trữ");
 
@@ -148,7 +147,7 @@ public class XMLExporter {
         }
     }
 
-    private static void exportKhachHangListToXML(List<Model_KhachHang> khachHangList, String filePath) {
+    private static void exportKhachHangListToXML(List<Model_NguoiMuon> khachHangList, String filePath) {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -157,16 +156,15 @@ public class XMLExporter {
             Element rootElement = doc.createElement("khachhanglist");
             doc.appendChild(rootElement);
 
-            for (Model_KhachHang khachHang : khachHangList) {
+            for (Model_NguoiMuon khachHang : khachHangList) {
                 Element khachHangElement = doc.createElement("khachhang");
                 rootElement.appendChild(khachHangElement);
 
                 createElementWithValue(doc, khachHangElement, "maKhachHang", String.valueOf(khachHang.getMaKhachHang()));
                 createElementWithValue(doc, khachHangElement, "ten", khachHang.getTen());
                 createElementWithValue(doc, khachHangElement, "sdt", khachHang.getSdt());
-                createElementWithValue(doc, khachHangElement, "tongChi", String.valueOf(khachHang.getTongChi()));
-                createElementWithValue(doc, khachHangElement, "diemTichLuy", String.valueOf(khachHang.getDiemTichLuy()));
-                createElementWithValue(doc, khachHangElement, "hang", khachHang.getHang());
+                createElementWithValue(doc, khachHangElement, "slDaMuon", String.valueOf(khachHang.getDaMuon()));
+                createElementWithValue(doc, khachHangElement, "slDangMuon", String.valueOf(khachHang.getDangMuon()));
             }
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

@@ -9,20 +9,18 @@ public class Model_Sach {
 	private String ten;
 	private String theLoai;
 	private String tacGia;
-	private int slTonKho;
-	private int slDaBan;
-	private int donGia;
+	private int slHienCo;
+	private int slDaMuon;
 	private byte[] hinhAnh;
 	
-	public Model_Sach(int maSach, String ten, String theLoai, String tacGia, int slTonKho, int slDaBan, int donGia,
+	public Model_Sach(int maSach, String ten, String theLoai, String tacGia, int slHienCo, int slDaMuon,
 			byte[] hinhAnh) {
 		this.maSach = maSach;
 		this.ten = ten;
 		this.theLoai = theLoai;
 		this.tacGia = tacGia;
-		this.slTonKho = slTonKho;
-		this.slDaBan = slDaBan;
-		this.donGia = donGia;
+		this.slHienCo = slHienCo;
+		this.slDaMuon = slDaMuon;
 		this.hinhAnh = hinhAnh;
 	}
 	
@@ -33,9 +31,8 @@ public class Model_Sach {
         	ten = obj.getString("ten");
         	theLoai = obj.getString("theLoai");
         	tacGia = obj.getString("tacGia");
-        	slTonKho = obj.getInt("slTonKho");
-        	slDaBan = obj.getInt("slDaBan");
-        	donGia = obj.getInt("donGia");
+        	slHienCo = obj.getInt("slHienCo");
+        	slDaMuon = obj.getInt("slDaMuon");
         	hinhAnh = convertHexStringToByteArray(obj.getString("hinhAnh"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,9 +47,8 @@ public class Model_Sach {
 			json.put("ten", ten);
 			json.put("theLoai", theLoai);
 			json.put("tacGia", tacGia);
-			json.put("slTonKho", slTonKho);
-			json.put("slDaBan", slDaBan);
-			json.put("donGia", donGia);
+			json.put("slHienCo", slHienCo);
+			json.put("slDaMuon", slDaMuon);
 			json.put("hinhAnh", convertByteArrayToHexString(hinhAnh));
 			return json;
 		} catch (Exception e) {
@@ -82,7 +78,8 @@ public class Model_Sach {
         }
         return data;
     }
-
+    
+    
 
 	public int getMaSach() {
 		return maSach;
@@ -116,28 +113,20 @@ public class Model_Sach {
 		this.tacGia = tacGia;
 	}
 
-	public int getSlTonKho() {
-		return slTonKho;
+	public int getSlHienCo() {
+		return slHienCo;
 	}
 
-	public void setSlTonKho(int slTonKho) {
-		this.slTonKho = slTonKho;
+	public void setSlHienCo(int slHienCo) {
+		this.slHienCo = slHienCo;
 	}
 
-	public int getSlDaBan() {
-		return slDaBan;
+	public int getSlDaMuon() {
+		return slDaMuon;
 	}
 
-	public void setSlDaBan(int slDaBan) {
-		this.slDaBan = slDaBan;
-	}
-
-	public int getDonGia() {
-		return donGia;
-	}
-
-	public void setDonGia(int donGia) {
-		this.donGia = donGia;
+	public void setSlDaMuon(int slDaMuon) {
+		this.slDaMuon = slDaMuon;
 	}
 
 	public byte[] getHinhAnh() {
@@ -149,7 +138,6 @@ public class Model_Sach {
 	}
 
 
-	
-	
+
 	
 }

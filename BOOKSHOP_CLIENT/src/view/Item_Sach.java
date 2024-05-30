@@ -49,7 +49,7 @@ public class Item_Sach extends JPanel{
 		lb_anh.setBorder(new LineBorder(SystemColor.controlHighlight));
         ImageUtil.setImageLabelFromBytes(sach.getHinhAnh(), lb_anh, 150, 150);
 //		lb_anh.setIcon(new ImageIcon(new ImageIcon(Item_Sach.class.getResource("/images/dacnhantam.jpg")).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH)));
-		lb_anh.setBackground(new Color(100, 149, 237));
+		lb_anh.setBackground(new Color(255, 255, 255));
 		lb_anh.setOpaque(true);
 		lb_anh.setBounds(0, 0, 150, 150);
 		add(lb_anh);

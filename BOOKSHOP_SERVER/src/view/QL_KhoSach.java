@@ -43,18 +43,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class QL_KhoSach extends JPanel{
-	private JTextField tf_loc_dongia_from;
-	private JTextField tf_loc_dongia_to;
-	private JTextField tf_loc_daban_from;
-	private JTextField tf_loc_daban_to;
-	private JTextField tf_loc_tonkho_from;
-	private JTextField tf_loc_tonkho_to;
+	private JTextField tf_loc_damuon_from;
+	private JTextField tf_loc_damuon_to;
+	private JTextField tf_loc_hienco_from;
+	private JTextField tf_loc_hienco_to;
 	private JTextField tf_maSach;
 	private JTextField tf_tenSach;
 	private JTextField tf_tacGia;
-	private JTextField tf_slTonKho;
-	private JTextField tf_slDaBan;
-	private JTextField tf_donGia;
+	private JTextField tf_slHienCo;
+	private JTextField tf_slDaMuon;
 	private JTable table;
 	private DefaultTableModel table_model;
 	private JComboBox cb_theloai;
@@ -75,22 +72,20 @@ public class QL_KhoSach extends JPanel{
 		add(lb_logo);	
 		
 		table_model = new DefaultTableModel(
-				new Object[][] {
-				},
+				new Object[][] {},
 				new String[] {
-					"M\u00E3", "T\u00EAn", "Th\u1EC3 lo\u1EA1i", "T\u00E1c gi\u1EA3", "T\u1ED3n kho", "\u0110\u00E3 b\u00E1n", "\u0110\u01A1n gi\u00E1"
+					"M\u00E3", "T\u00EAn", "Th\u1EC3 lo\u1EA1i", "T\u00E1c gi\u1EA3", "Hi\u1EC7n c\u00F3", "\u0110\u00E3 m\u01B0\u1EE3n"
 				}
 			);
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.BOLD, 20));
 		table.setModel(table_model);
 		table.getColumnModel().getColumn(0).setPreferredWidth(70);
-		table.getColumnModel().getColumn(1).setPreferredWidth(400);
+		table.getColumnModel().getColumn(1).setPreferredWidth(470);
 		table.getColumnModel().getColumn(2).setPreferredWidth(230);
 		table.getColumnModel().getColumn(3).setPreferredWidth(230);
-		table.getColumnModel().getColumn(4).setPreferredWidth(70);
-		table.getColumnModel().getColumn(5).setPreferredWidth(70);
-		table.getColumnModel().getColumn(6).setPreferredWidth(130);
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(5).setPreferredWidth(100);
 		
 		Font headerFont = new Font("Arial", Font.BOLD, 14);
 		table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getWidth(), 30));
@@ -104,7 +99,7 @@ public class QL_KhoSach extends JPanel{
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(245, 245, 245));
-		panel.setBounds(15, 83, 392, 376);
+		panel.setBounds(15, 83, 392, 336);
 		add(panel);
 		
 		JLabel lblTn = new JLabel("Tên");
@@ -142,7 +137,7 @@ public class QL_KhoSach extends JPanel{
 			}
 		});
 		bt_loc.setFont(new Font("Tahoma", Font.BOLD, 20));
-		bt_loc.setBounds(124, 333, 150, 33);
+		bt_loc.setBounds(124, 274, 150, 33);
 		panel.add(bt_loc);
 		
 		String[] itemTheLoaiLoc = {"Tất cả" ,"Sách giáo khoa", "Sách khoa học", "Sách nghệ thuật", "Sách văn học", "Sách SELF HELP", "Truyện tranh" };
@@ -151,74 +146,51 @@ public class QL_KhoSach extends JPanel{
 		tf_loc_theloai.setBounds(112, 74, 268, 30);
 		panel.add(tf_loc_theloai);
 		
-		JLabel lblSt_1_1 = new JLabel("Đơn giá");
-		lblSt_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblSt_1_1.setBounds(10, 114, 92, 30);
-		panel.add(lblSt_1_1);
-		
-		tf_loc_dongia_from = new JTextField();
-		tf_loc_dongia_from.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_loc_dongia_from.setColumns(10);
-		tf_loc_dongia_from.setBounds(10, 143, 150, 30);
-		panel.add(tf_loc_dongia_from);
-		
-		tf_loc_dongia_to = new JTextField();
-		tf_loc_dongia_to.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_loc_dongia_to.setColumns(10);
-		tf_loc_dongia_to.setBounds(230, 143, 150, 30);
-		panel.add(tf_loc_dongia_to);
-		
-		JLabel lblSt_1_1_1 = new JLabel("đến");
-		lblSt_1_1_1.setForeground(new Color(128, 128, 128));
-		lblSt_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblSt_1_1_1.setBounds(173, 143, 47, 30);
-		panel.add(lblSt_1_1_1);
-		
-		JLabel lblSt_1_1_2 = new JLabel("Số lượng đã bán");
+		JLabel lblSt_1_1_2 = new JLabel("Số lượng đã mượn");
 		lblSt_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblSt_1_1_2.setBounds(10, 252, 198, 30);
+		lblSt_1_1_2.setBounds(10, 193, 198, 30);
 		panel.add(lblSt_1_1_2);
 		
-		tf_loc_daban_from = new JTextField();
-		tf_loc_daban_from.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_loc_daban_from.setColumns(10);
-		tf_loc_daban_from.setBounds(10, 281, 150, 30);
-		panel.add(tf_loc_daban_from);
+		tf_loc_damuon_from = new JTextField();
+		tf_loc_damuon_from.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_loc_damuon_from.setColumns(10);
+		tf_loc_damuon_from.setBounds(10, 222, 150, 30);
+		panel.add(tf_loc_damuon_from);
 		
 		JLabel lblSt_1_1_1_1 = new JLabel("đến");
 		lblSt_1_1_1_1.setForeground(new Color(128, 128, 128));
 		lblSt_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblSt_1_1_1_1.setBounds(173, 281, 47, 30);
+		lblSt_1_1_1_1.setBounds(173, 222, 47, 30);
 		panel.add(lblSt_1_1_1_1);
 		
-		tf_loc_daban_to = new JTextField();
-		tf_loc_daban_to.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_loc_daban_to.setColumns(10);
-		tf_loc_daban_to.setBounds(230, 281, 150, 30);
-		panel.add(tf_loc_daban_to);
+		tf_loc_damuon_to = new JTextField();
+		tf_loc_damuon_to.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_loc_damuon_to.setColumns(10);
+		tf_loc_damuon_to.setBounds(230, 222, 150, 30);
+		panel.add(tf_loc_damuon_to);
 		
-		JLabel lblSt_1_1_3 = new JLabel("Số lượng tồn kho");
+		JLabel lblSt_1_1_3 = new JLabel("Số lượng hiện có");
 		lblSt_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblSt_1_1_3.setBounds(10, 183, 222, 30);
+		lblSt_1_1_3.setBounds(10, 124, 222, 30);
 		panel.add(lblSt_1_1_3);
 		
-		tf_loc_tonkho_from = new JTextField();
-		tf_loc_tonkho_from.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_loc_tonkho_from.setColumns(10);
-		tf_loc_tonkho_from.setBounds(10, 212, 150, 30);
-		panel.add(tf_loc_tonkho_from);
+		tf_loc_hienco_from = new JTextField();
+		tf_loc_hienco_from.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_loc_hienco_from.setColumns(10);
+		tf_loc_hienco_from.setBounds(10, 153, 150, 30);
+		panel.add(tf_loc_hienco_from);
 		
 		JLabel lblSt_1_1_1_2 = new JLabel("đến");
 		lblSt_1_1_1_2.setForeground(new Color(128, 128, 128));
 		lblSt_1_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblSt_1_1_1_2.setBounds(173, 212, 47, 30);
+		lblSt_1_1_1_2.setBounds(173, 153, 47, 30);
 		panel.add(lblSt_1_1_1_2);
 		
-		tf_loc_tonkho_to = new JTextField();
-		tf_loc_tonkho_to.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_loc_tonkho_to.setColumns(10);
-		tf_loc_tonkho_to.setBounds(230, 212, 150, 30);
-		panel.add(tf_loc_tonkho_to);
+		tf_loc_hienco_to = new JTextField();
+		tf_loc_hienco_to.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_loc_hienco_to.setColumns(10);
+		tf_loc_hienco_to.setBounds(230, 153, 150, 30);
+		panel.add(tf_loc_hienco_to);
 		
 		JLabel lblMSch = new JLabel("Mã sách");
 		lblMSch.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -240,20 +212,15 @@ public class QL_KhoSach extends JPanel{
 		lblTcGi.setBounds(462, 222, 145, 30);
 		add(lblTcGi);
 		
-		JLabel lblSlTnKho = new JLabel("SL tồn kho");
+		JLabel lblSlTnKho = new JLabel("SL hiện có");
 		lblSlTnKho.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblSlTnKho.setBounds(462, 270, 145, 30);
 		add(lblSlTnKho);
 		
-		JLabel lblSlBn = new JLabel("SL đã bán");
+		JLabel lblSlBn = new JLabel("SL đã mượn");
 		lblSlBn.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblSlBn.setBounds(462, 317, 145, 30);
 		add(lblSlBn);
-		
-		JLabel lblnGi = new JLabel("Đơn giá");
-		lblnGi.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblnGi.setBounds(462, 365, 145, 30);
-		add(lblnGi);
 		
 		tf_maSach = new JTextField();
 		tf_maSach.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -273,23 +240,17 @@ public class QL_KhoSach extends JPanel{
 		tf_tacGia.setBounds(589, 222, 318, 30);
 		add(tf_tacGia);
 		
-		tf_slTonKho = new JTextField();
-		tf_slTonKho.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_slTonKho.setColumns(10);
-		tf_slTonKho.setBounds(589, 270, 318, 30);
-		add(tf_slTonKho);
+		tf_slHienCo = new JTextField();
+		tf_slHienCo.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_slHienCo.setColumns(10);
+		tf_slHienCo.setBounds(589, 270, 318, 30);
+		add(tf_slHienCo);
 		
-		tf_slDaBan = new JTextField();
-		tf_slDaBan.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_slDaBan.setColumns(10);
-		tf_slDaBan.setBounds(589, 317, 318, 30);
-		add(tf_slDaBan);
-		
-		tf_donGia = new JTextField();
-		tf_donGia.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_donGia.setColumns(10);
-		tf_donGia.setBounds(589, 365, 318, 30);
-		add(tf_donGia);
+		tf_slDaMuon = new JTextField();
+		tf_slDaMuon.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_slDaMuon.setColumns(10);
+		tf_slDaMuon.setBounds(589, 317, 318, 30);
+		add(tf_slDaMuon);
 		
 		String[] itemTheLoai = {"Sách giáo khoa", "Sách khoa học", "Sách nghệ thuật", "Sách văn học", "Sách SELF HELP", "Truyện tranh" };
 		cb_theloai = new JComboBox<>(itemTheLoai);
@@ -386,7 +347,7 @@ public class QL_KhoSach extends JPanel{
 		add(bt_excel);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(462, 405, 442, 2);
+		separator.setBounds(462, 370, 442, 2);
 		add(separator);
 		
 		bt_luu = new JButton("LƯU");
@@ -401,7 +362,7 @@ public class QL_KhoSach extends JPanel{
 		});
 		bt_luu.setVisible(false);
 		bt_luu.setFont(new Font("Tahoma", Font.BOLD, 20));
-		bt_luu.setBounds(640, 413, 111, 37);
+		bt_luu.setBounds(643, 382, 111, 37);
 		add(bt_luu);
 		
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -414,9 +375,8 @@ public class QL_KhoSach extends JPanel{
                         tf_tenSach.setText(table.getValueAt(selectedRow, 1).toString());
                         cb_theloai.setSelectedItem(table.getValueAt(selectedRow, 2).toString());
                         tf_tacGia.setText(table.getValueAt(selectedRow, 3).toString());
-                        tf_slTonKho.setText(table.getValueAt(selectedRow, 4).toString());
-                        tf_slDaBan.setText(table.getValueAt(selectedRow, 5).toString());
-                        tf_donGia.setText(table.getValueAt(selectedRow, 6).toString());
+                        tf_slHienCo.setText(table.getValueAt(selectedRow, 4).toString());
+                        tf_slDaMuon.setText(table.getValueAt(selectedRow, 5).toString());
                     
                         ImageUtil.setImageLabelFromBytes(DBSach.getInstance().getImage(Integer.parseInt(table.getValueAt(selectedRow, 0).toString())), lb_hinhAnh);
                     }
@@ -431,14 +391,14 @@ public class QL_KhoSach extends JPanel{
 		ArrayList<Model_Sach> list = DBSach.getInstance().loadSach();
 		table_model.setRowCount(0);
 		for(Model_Sach sach : list) {
-	        Object[] newRow = {sach.getMaSach(), sach.getTen(), sach.getTheLoai(), sach.getTacGia(), sach.getSlTonKho(), sach.getSlDaBan(), sach.getDonGia()};
+	        Object[] newRow = {sach.getMaSach(), sach.getTen(), sach.getTheLoai(), sach.getTacGia(), sach.getSlHienCo(), sach.getSlDaMuon()};
 	        table_model.addRow(newRow);
 		}
 	}
 	
 	public void themSach(Model_Sach sach) {
 		Model_Sach sachMoi = DBSach.getInstance().themSach(sach);
-        Object[] newRow = {sach.getMaSach(), sach.getTen(), sach.getTheLoai(), sach.getTacGia(), sach.getSlTonKho(), sach.getSlDaBan(), sach.getDonGia()};
+        Object[] newRow = {sach.getMaSach(), sach.getTen(), sach.getTheLoai(), sach.getTacGia(), sach.getSlHienCo(), sach.getSlDaMuon()};
         table_model.addRow(newRow);
 	}
 	
@@ -447,11 +407,10 @@ public class QL_KhoSach extends JPanel{
 		String ten = tf_tenSach.getText();
 		String theLoai = cb_theloai.getSelectedItem().toString();
 		String tacgia = tf_tacGia.getText();
-		int tonkho = Integer.parseInt(tf_slTonKho.getText());
-		int daban = Integer.parseInt(tf_slDaBan.getText());
-		int dongia = Integer.parseInt(tf_donGia.getText());
+		int hienco = Integer.parseInt(tf_slHienCo.getText());
+		int damuon = Integer.parseInt(tf_slDaMuon.getText());
 
-		Model_Sach sach = new Model_Sach(ma, ten, theLoai, tacgia, tonkho, daban, dongia, null);
+		Model_Sach sach = new Model_Sach(ma, ten, theLoai, tacgia, hienco, damuon, null);
 		DBSach.getInstance().suaThongTin(sach);
 	}
 	
@@ -464,17 +423,15 @@ public class QL_KhoSach extends JPanel{
 		tf_tenSach.setText("");
 		cb_theloai.setSelectedIndex(0);
 		tf_tacGia.setText("");
-		tf_slTonKho.setText("");
-		tf_slDaBan.setText("");
-		tf_donGia.setText("");
+		tf_slHienCo.setText("");
+		tf_slDaMuon.setText("");
 		
 		tf_maSach.setEditable(false);
 		tf_tenSach.setEditable(false);
 		cb_theloai.setEnabled(false);
 		tf_tacGia.setEditable(false);
-		tf_slTonKho.setEditable(false);
-		tf_slDaBan.setEditable(false);
-		tf_donGia.setEditable(false);
+		tf_slHienCo.setEditable(false);
+		tf_slDaMuon.setEditable(false);
 		
 		lb_hinhAnh.setIcon(new ImageIcon(QL_KhoSach.class.getResource("/images/icon_image2.png")));
 		
@@ -484,9 +441,8 @@ public class QL_KhoSach extends JPanel{
 		tf_tenSach.setEditable(true);
 		cb_theloai.setEnabled(true);
 		tf_tacGia.setEditable(true);
-		tf_slTonKho.setEditable(true);
-		tf_slDaBan.setEditable(true);
-		tf_donGia.setEditable(true);
+		tf_slHienCo.setEditable(true);
+		tf_slDaMuon.setEditable(true);
 	}
 	
 	public void loc() {
@@ -494,29 +450,23 @@ public class QL_KhoSach extends JPanel{
 		if(!tf_loc_theloai.getSelectedItem().toString().equals("Tất cả")) {
 			dieukien += " AND theloai='" + tf_loc_theloai.getSelectedItem().toString() + "'";
 		}
-		if(!tf_loc_dongia_from.getText().isEmpty()) {
-			dieukien += " AND dongia>=" + tf_loc_dongia_from.getText();
+		if(!tf_loc_hienco_from.getText().isEmpty()) {
+			dieukien += " AND hienco>=" + tf_loc_hienco_from.getText();
 		}
-		if(!tf_loc_dongia_to.getText().isEmpty()) {
-			dieukien += " AND dongia<=" + tf_loc_dongia_to.getText();
+		if(!tf_loc_hienco_to.getText().isEmpty()) {
+			dieukien += " AND hienco<=" + tf_loc_hienco_to.getText();
 		}
-		if(!tf_loc_tonkho_from.getText().isEmpty()) {
-			dieukien += " AND sltonkho>=" + tf_loc_tonkho_from.getText();
+		if(!tf_loc_damuon_from.getText().isEmpty()) {
+			dieukien += " AND damuon>=" + tf_loc_damuon_from.getText();
 		}
-		if(!tf_loc_tonkho_to.getText().isEmpty()) {
-			dieukien += " AND sltonkho<=" + tf_loc_tonkho_to.getText();
-		}
-		if(!tf_loc_daban_from.getText().isEmpty()) {
-			dieukien += " AND sldaban>=" + tf_loc_daban_from.getText();
-		}
-		if(!tf_loc_daban_to.getText().isEmpty()) {
-			dieukien += " AND sldaban<=" + tf_loc_daban_to.getText();
+		if(!tf_loc_damuon_to.getText().isEmpty()) {
+			dieukien += " AND damuon<=" + tf_loc_damuon_to.getText();
 		}
 		
 		ArrayList<Model_Sach> list = DBSach.getInstance().locSach(dieukien);
 		table_model.setRowCount(0);
 		for(Model_Sach sach : list) {
-	        Object[] newRow = {sach.getMaSach(), sach.getTen(), sach.getTheLoai(), sach.getTacGia(), sach.getSlTonKho(), sach.getSlDaBan(), sach.getDonGia()};
+	        Object[] newRow = {sach.getMaSach(), sach.getTen(), sach.getTheLoai(), sach.getTacGia(), sach.getSlHienCo(), sach.getSlDaMuon()};
 	        table_model.addRow(newRow);
 		}
 		
@@ -532,7 +482,7 @@ public class QL_KhoSach extends JPanel{
 			ArrayList<Model_Sach> list = DBSach.getInstance().timkiem("%" + tensach + "%");
 			table_model.setRowCount(0);
 			for(Model_Sach sach : list) {
-		        Object[] newRow = {sach.getMaSach(), sach.getTen(), sach.getTheLoai(), sach.getTacGia(), sach.getSlTonKho(), sach.getSlDaBan(), sach.getDonGia()};
+		        Object[] newRow = {sach.getMaSach(), sach.getTen(), sach.getTheLoai(), sach.getTacGia(), sach.getSlHienCo(), sach.getSlDaMuon()};
 		        table_model.addRow(newRow);
 			}
 		}

@@ -14,7 +14,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
 public class QRCodePaymentGenerator {
-    public static void generatePaymentQRCode(JLabel label, String accountNumber, int amount) {
+    public static void generatePaymentQRCode(JLabel label) {
 //        Map<String, String> paymentData = new HashMap<>();
 //        paymentData.put("accountNumber", accountNumber); // Số tài khoản người nhận
 //        paymentData.put("amount", String.valueOf(amount)); // Số tiền thanh toán

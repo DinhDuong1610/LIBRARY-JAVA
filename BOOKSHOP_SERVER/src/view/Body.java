@@ -7,9 +7,9 @@ import java.awt.CardLayout;
 public class Body extends JPanel{
 	
 	private CardLayout cardLayout;
-	private QL_DoanhThu doanhthu;
+	private QL_MuonSach doanhthu;
 	private QL_KhoSach khosach;
-	private QL_KhachHang khachhang;
+	private QLNguoiMuon khachhang;
 	private QL_NhanVien nhanvien;
 	private QL_CuaHang cuahang;
 	private QL_Thong_Ke thongke;
@@ -22,13 +22,13 @@ public class Body extends JPanel{
 		cuahang = new QL_CuaHang();
 		add(cuahang, "cuahang");	
 		
-		doanhthu = new QL_DoanhThu();
+		doanhthu = new QL_MuonSach();
 		add(doanhthu, "doanhthu");
 		
 		khosach = new QL_KhoSach();
 		add(khosach, "khosach");
 		
-		khachhang = new QL_KhachHang();
+		khachhang = new QLNguoiMuon();
 		add(khachhang, "khachhang");
 		
 		nhanvien = new QL_NhanVien();
@@ -43,7 +43,7 @@ public class Body extends JPanel{
 		return cardLayout;
 	}
 
-	public QL_DoanhThu getDoanhthu() {
+	public QL_MuonSach getDoanhthu() {
 		return doanhthu;
 	}
 
@@ -51,7 +51,7 @@ public class Body extends JPanel{
 		return khosach;
 	}
 
-	public QL_KhachHang getKhachhang() {
+	public QLNguoiMuon getKhachhang() {
 		return khachhang;
 	}
 

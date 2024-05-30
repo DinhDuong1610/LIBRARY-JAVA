@@ -71,21 +71,21 @@ public class QL_CuaHang extends JPanel{
 		panel.add(item6);
 		
 		JLabel lblNewLabel = new JLabel("TẦNG 1");
-		lblNewLabel.setForeground(new Color(70, 130, 180));
+		lblNewLabel.setForeground(new Color(244, 164, 96));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(160, 128, 278, 41);
 		add(lblNewLabel);
 		
 		JLabel lblTng = new JLabel("TẦNG 2");
-		lblTng.setForeground(new Color(70, 130, 180));
+		lblTng.setForeground(new Color(244, 164, 96));
 		lblTng.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTng.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblTng.setBounds(487, 128, 278, 41);
 		add(lblTng);
 		
 		JLabel lblTng_1 = new JLabel("TẦNG 3");
-		lblTng_1.setForeground(new Color(70, 130, 180));
+		lblTng_1.setForeground(new Color(244, 164, 96));
 		lblTng_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTng_1.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblTng_1.setBounds(821, 128, 278, 41);

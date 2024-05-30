@@ -13,9 +13,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import com.toedter.calendar.JDateChooser;
+
 import EnCode.QRCodePaymentGenerator;
-import model.Model_DonMua;
-import model.Model_KhachHang;
+import model.Model_PhieuMuon;
+import model.Model_Sach;
+import model.Model_NguoiMuon;
 import service.Service;
 import swing.PlaceholderTextField;
 
@@ -27,33 +30,38 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class MenuLeft extends JPanel{
 	private JTextField tf_ma;
 	private JTextField tf_ten;
-	private JTextField tf_diem;
-	private JTextField tf_dongia;
-	private JTextField tf_giamgia;
-	private JTextField tf_thanhtoan;
 	private JLabel lb_username;
 	private JLabel lb_quay;
 	private PlaceholderTextField tf_sdt;
-	private Model_KhachHang khachhang;
-	private ArrayList<Model_DonMua> donmuaList;
+	private Model_NguoiMuon khachhang;
+	private ArrayList<Model_Sach> sachList;
+	private Date date;
+	private JDateChooser tf_ngaymuon;
+	private JDateChooser tf_ngayhentra;
+	private ArrayList<Model_PhieuMuon> phieumuonList;
+	private ArrayList<Model_PhieuMuon> phieutraList;
 	
 	public MenuLeft() {
 		setSize(300, 840);
 		setLayout(null);
-		setBackground(new Color(74, 170, 239));
+		setBackground(new Color(251, 229, 82));
 		
 		JLabel lb_logo = new JLabel("");
 		lb_logo.setIcon(new ImageIcon(new ImageIcon(MenuLeft.class.getResource("/images/user_account.png")).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH)));
 		lb_logo.setBounds(72, 31, 150, 150);
 		add(lb_logo);
 		
-		donmuaList = new ArrayList<>();
+		sachList = new ArrayList<>();
+		phieutraList = new ArrayList<>();
 		
 		lb_username = new JLabel("ĐÍNH DƯƠNG");
 		lb_username.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -79,12 +87,6 @@ public class MenuLeft extends JPanel{
 		lblStKh.setBounds(10, 334, 82, 28);
 		add(lblStKh);
 		
-		JLabel lblim = new JLabel("Điểm TL");
-		lblim.setForeground(Color.WHITE);
-		lblim.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblim.setBounds(10, 372, 82, 28);
-		add(lblim);
-		
 		tf_ma = new JTextField();
 		tf_ma.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tf_ma.setBounds(107, 261, 183, 28);
@@ -103,12 +105,6 @@ public class MenuLeft extends JPanel{
 		tf_sdt.setBounds(107, 334, 183, 28);
 		add(tf_sdt);
 		
-		tf_diem = new JTextField();
-		tf_diem.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_diem.setColumns(10);
-		tf_diem.setBounds(107, 372, 183, 28);
-		add(tf_diem);
-		
 		JButton bt_tracuu = new JButton("TRA CỨU");
 		bt_tracuu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,32 +114,24 @@ public class MenuLeft extends JPanel{
 			}
 		});
 		bt_tracuu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		bt_tracuu.setBounds(10, 423, 110, 36);
+		bt_tracuu.setBounds(10, 388, 110, 36);
 		add(bt_tracuu);
 		
-		JButton bt_doidiem = new JButton("ĐỔI ĐIỂM");
-		bt_doidiem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(Integer.parseInt(tf_diem.getText()) > 0) {
-					int diem = Integer.parseInt(tf_diem.getText());
-					int gia = Integer.parseInt(tf_dongia.getText());
-					if(diem*1000 <= gia) {
-						tf_diem.setText("0");
-						tf_giamgia.setText(diem*1000 + "");
-		                tf_thanhtoan.setText(Integer.parseInt(tf_dongia.getText()) - Integer.parseInt(tf_giamgia.getText()) + "");
-					}
-					else {
-						diem = diem - gia/1000;
-						tf_diem.setText(diem + "");
-						tf_giamgia.setText(gia + "");
-		                tf_thanhtoan.setText(Integer.parseInt(tf_dongia.getText()) - Integer.parseInt(tf_giamgia.getText()) + "");
-					}
-				}
+		JButton bt_trasach = new JButton("TRẢ SÁCH");
+		bt_trasach.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+	        	JDialog dialog = new JDialog();
+	        	TraSach trasach = new TraSach(khachhang, dialog, phieutraList);
+	    		dialog.getContentPane().setLayout(new GridLayout(1,1));
+	    		dialog.setSize(1200, 750);
+	    		dialog.setLocationRelativeTo(Service.getInstance().getMain().getBody());
+	        	dialog.getContentPane().add(trasach);
+	        	dialog.setVisible(true);
 			}
 		});
-		bt_doidiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		bt_doidiem.setBounds(180, 423, 110, 36);
-		add(bt_doidiem);
+		bt_trasach.setFont(new Font("Tahoma", Font.BOLD, 14));
+		bt_trasach.setBounds(180, 388, 110, 36);
+		add(bt_trasach);
 		
 		JButton bt_them = new JButton("");
 		bt_them.addActionListener(new ActionListener() {
@@ -159,78 +147,57 @@ public class MenuLeft extends JPanel{
 		});
 		bt_them.setIcon(new ImageIcon(MenuLeft.class.getResource("/images/icon_cong.png")));
 		bt_them.setFont(new Font("Tahoma", Font.BOLD, 14));
-		bt_them.setBounds(130, 423, 40, 40);
+		bt_them.setBounds(130, 388, 40, 40);
 		add(bt_them);
 		
-		JLabel lblnGi = new JLabel("Đơn giá");
+		
+		
+		JLabel lblnGi = new JLabel("Ngày mượn");
 		lblnGi.setForeground(Color.WHITE);
-		lblnGi.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblnGi.setBounds(10, 477, 110, 28);
+		lblnGi.setFont(new Font("Tahoma", Font.BOLD, 19));
+		lblnGi.setBounds(10, 450, 123, 28);
 		add(lblnGi);
 		
-		JLabel lblGimGi = new JLabel("Giảm giá");
+		JLabel lblGimGi = new JLabel("Ngày hẹn trả");
 		lblGimGi.setForeground(Color.WHITE);
-		lblGimGi.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblGimGi.setBounds(10, 515, 110, 28);
+		lblGimGi.setFont(new Font("Tahoma", Font.BOLD, 19));
+		lblGimGi.setBounds(10, 488, 123, 28);
 		add(lblGimGi);
 		
-		JLabel lblThanhTon = new JLabel("Thanh toán");
-		lblThanhTon.setForeground(Color.WHITE);
-		lblThanhTon.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblThanhTon.setBounds(10, 553, 125, 28);
-		add(lblThanhTon);
+		tf_ngaymuon = new JDateChooser();
+		tf_ngaymuon.setBackground(new Color(255, 255, 255));
+		tf_ngaymuon.setFont(new Font("Tahoma", Font.BOLD, 16));
+		tf_ngaymuon.setBounds(140, 450, 150, 28);
+		add(tf_ngaymuon);
 		
-		tf_dongia = new JTextField("0");
-		tf_dongia.setBackground(new Color(255, 255, 255));
-		tf_dongia.setEditable(false);
-		tf_dongia.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_dongia.setColumns(10);
-		tf_dongia.setBounds(140, 477, 150, 28);
-		add(tf_dongia);
+		Calendar today = Calendar.getInstance();
+		tf_ngaymuon.setDate(today.getTime());
 		
-		tf_giamgia = new JTextField("0");
-		tf_giamgia.setBackground(new Color(255, 255, 255));
-		tf_giamgia.setEditable(false);
-		tf_giamgia.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_giamgia.setColumns(10);
-		tf_giamgia.setBounds(140, 515, 150, 28);
-		add(tf_giamgia);
-//		tf_giamgia.getDocument().addDocumentListener(new DocumentListener() {
-//            public void insertUpdate(DocumentEvent e) {
-//                tf_thanhtoan.setText(Integer.parseInt(tf_dongia.getText()) - Integer.parseInt(tf_giamgia.getText()) + "");
-//            }
-//            public void removeUpdate(DocumentEvent e) {
-//                tf_thanhtoan.setText(Integer.parseInt(tf_dongia.getText()) - Integer.parseInt(tf_giamgia.getText()) + "");
-//            }
-//            public void changedUpdate(DocumentEvent e) {
-//                tf_thanhtoan.setText(Integer.parseInt(tf_dongia.getText()) - Integer.parseInt(tf_giamgia.getText()) + "");
-//            }
-//        });
+        Date toDate = tf_ngaymuon.getDate();
+        java.sql.Date sqlToDate = new java.sql.Date(toDate.getTime());
 		
-		tf_thanhtoan = new JTextField("0");
-		tf_thanhtoan.setBackground(new Color(255, 255, 255));
-		tf_thanhtoan.setEditable(false);
-		tf_thanhtoan.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_thanhtoan.setColumns(10);
-		tf_thanhtoan.setBounds(140, 553, 150, 28);
-		add(tf_thanhtoan);
+		tf_ngayhentra = new JDateChooser();
+		tf_ngayhentra.setBackground(new Color(255, 255, 255));
+		tf_ngayhentra.setFont(new Font("Tahoma", Font.BOLD, 16));
+		tf_ngayhentra.setBounds(140, 488, 150, 28);
+		add(tf_ngayhentra);
 		
-		JButton bt_xuathoadon = new JButton("XUẤT HÓA ĐƠN");
-		bt_xuathoadon.addActionListener(new ActionListener() {
+		JButton bt_xuatphieumuon = new JButton("XUẤT PHIẾU MƯỢN");
+		bt_xuatphieumuon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				xuatHoaDon();
+				xuatPhieuMuon();
 			}
 		});
-		bt_xuathoadon.setFont(new Font("Tahoma", Font.BOLD, 14));
-		bt_xuathoadon.setBounds(7, 604, 283, 36);
-		add(bt_xuathoadon);
+		bt_xuatphieumuon.setFont(new Font("Tahoma", Font.BOLD, 14));
+		bt_xuatphieumuon.setBounds(7, 542, 283, 36);
+		add(bt_xuatphieumuon);
 		
 		lb_quay = new JLabel("QUẦY SỐ 1");
 		lb_quay.setForeground(new Color(0, 0, 0));
 		lb_quay.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lb_quay.setHorizontalAlignment(SwingConstants.CENTER);
 		lb_quay.setBounds(0, 763, 300, 41);
-		lb_quay.setBackground(new Color(183, 225, 255));
+		lb_quay.setBackground(new Color(255, 215, 0));
 		lb_quay.setOpaque(true);
 		add(lb_quay);
 				
@@ -241,48 +208,32 @@ public class MenuLeft extends JPanel{
 		lb_quay.setText("QUẦY SỐ " + quay);
 	}
 	
-	public void tracuu(Model_KhachHang khachhang) {
+	public void tracuu(Model_NguoiMuon khachhang) {
 		this.khachhang = khachhang;
 		tf_ten.setText(khachhang.getTen());
 		tf_sdt.setText(khachhang.getSdt());
-		tf_diem.setText(khachhang.getDiemTichLuy() + "");
 		tf_ma.setText(khachhang.getMaKhachHang()+"");
 	}
 	
-	public void themDonMua(Model_DonMua donmua) {
-		int tien = donmua.getGia() * donmua.getSoluong();
-		int dongia = Integer.parseInt(tf_dongia.getText());
-		int thanhtoan = Integer.parseInt(tf_thanhtoan.getText());
-		dongia += tien;
-		thanhtoan += tien;
-		tf_dongia.setText(dongia + "");
-		tf_thanhtoan.setText(thanhtoan + "");
-	}
-	
-	public void xuatHoaDon() {
-		int diem = Integer.parseInt(tf_diem.getText());
-		int gia = Integer.parseInt(tf_dongia.getText());
-		khachhang.setDiemTichLuy(diem + gia/10000);
-		khachhang.setTongChi(khachhang.getTongChi() + gia);
-		if(khachhang.getTongChi() < 1000000) {
-			khachhang.setHang("Đồng");
+	public void xuatPhieuMuon() {
+
+		ArrayList<Model_PhieuMuon> phieumuonList = new ArrayList<>();
+		Date ngayMuon = tf_ngaymuon.getDate();
+		java.sql.Date sqlNgayMuon = new java.sql.Date(ngayMuon.getTime());
+		Date ngayHenTra = tf_ngayhentra.getDate();
+		java.sql.Date sqlNgayHenTra = new java.sql.Date(ngayHenTra.getTime());
+		int cnt = 0;
+		for(Model_Sach sach : sachList) { 
+        	Model_PhieuMuon phieumuon = new Model_PhieuMuon(0, sach.getHinhAnh(), khachhang.getMaKhachHang(), khachhang.getTen(), sach.getMaSach(), sach.getTen(), sqlNgayMuon, sqlNgayHenTra, "Đang mượn");
+        	phieumuonList.add(phieumuon);
+        	cnt++;
 		}
-		else if(khachhang.getTongChi() < 3000000) {
-			khachhang.setHang("Bạc");
-		}
-		else if(khachhang.getTongChi() < 5000000) {
-			khachhang.setHang("Vàng");
-		}
-		else {
-			khachhang.setHang("Kim cương");
-		}
+		this.phieumuonList = phieumuonList;
+		Service.getInstance().xuatHoaDonSach(phieumuonList);
 		
+		khachhang.setDaMuon(khachhang.getDaMuon() + cnt);
+		khachhang.setDangMuon(khachhang.getDangMuon() + cnt);	
 		Service.getInstance().xuatHoaDonKhachHang(khachhang.toJsonObject("xuatHoaDonKhachHang"));
-        
-		for(Model_DonMua donmua : donmuaList) { 
-        	donmua.setMaKhachHang(khachhang.getMaKhachHang());
-        }
-		Service.getInstance().xuatHoaDonSach(donmuaList);
 		
 		printHoaDon();
 		reset();
@@ -290,15 +241,14 @@ public class MenuLeft extends JPanel{
 	}
 	
 	public void printHoaDon() {
-    	
-    	HoaDon hoadon = new HoaDon();
+    	PhieuMuonSach hoadon = new PhieuMuonSach();
     	int stt = 1;
-    	hoadon.getTextArea().append(String.format("%-7s%-50s%-15s%-6s%-15s\n", "STT", "Tên Sách", "Đơn giá", "SL", "Thành tiền"));
-		for(Model_DonMua donmua : donmuaList) { 
-        	hoadon.getTextArea().append(String.format("%-7s%-50s%-15s%-6s%-15s\n", stt++, donmua.getTenSach(), donmua.getGia(), donmua.getSoluong(), donmua.getGia()*donmua.getSoluong()));
+    	hoadon.getTextArea().append(String.format("%-7s%-50s%-15s%-15s\n", "STT", "Tên Sách", "Ngày mượn", "Ngày hẹn trả"));
+		for(Model_PhieuMuon phieumuon : phieumuonList) { 
+        	hoadon.getTextArea().append(String.format("%-7s%-50s%-15s%-15s\n", stt++, phieumuon.getTenSach(), phieumuon.getNgayMuon(), phieumuon.getNgayHenTra()));
         }
     	
-		QRCodePaymentGenerator.generatePaymentQRCode(hoadon.getLb_qr(), "0979727604", Integer.parseInt(tf_thanhtoan.getText()));
+		QRCodePaymentGenerator.generatePaymentQRCode(hoadon.getLb_qr());
     	
     	JDialog dialog = new JDialog();
 		dialog.getContentPane().setLayout(new GridLayout(1,1));
@@ -311,23 +261,25 @@ public class MenuLeft extends JPanel{
 	public void reset() {
 		tf_ten.setText("");
 		tf_sdt.setText("");
-		tf_diem.setText("");
 		tf_ma.setText("");
+		tf_ngayhentra.setDate(null);
 		
-		tf_dongia.setText("0");
-		tf_giamgia.setText("0");
-		tf_thanhtoan.setText("0");
-		
+		phieumuonList = new ArrayList<>();
+		sachList = new ArrayList<>();
+		phieutraList = new ArrayList<>();
 		Service.getInstance().getMain().getBody().getTable_model().setRowCount(0);
 	}
 
-	public ArrayList<Model_DonMua> getDonmuaList() {
-		return donmuaList;
+	public ArrayList<Model_Sach> getSachList() {
+		return sachList;
 	}
 
-	public void setDonmuaList(ArrayList<Model_DonMua> donmuaList) {
-		this.donmuaList = donmuaList;
+	public ArrayList<Model_PhieuMuon> getPhieutraList() {
+		return phieutraList;
 	}
+
+	
+	
 	
 	
 }

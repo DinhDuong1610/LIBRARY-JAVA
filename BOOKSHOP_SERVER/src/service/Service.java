@@ -16,12 +16,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import dao.DBAccount;
-import dao.DBDoanhThu;
-import dao.DBKhachHang;
+import dao.DBMuonSach;
+import dao.DBNguoiMuon;
 import dao.DBSach;
 import dao.DatabaseConnection;
-import model.Model_DonMua;
-import model.Model_KhachHang;
+import model.Model_PhieuMuon;
+import model.Model_NguoiMuon;
 import model.Model_Login;
 import model.Model_NhanVien;
 import model.Model_Register;
@@ -142,35 +142,47 @@ public class Service {
     	    	}
     	    	else if(jsonData.getString("type").equals("tracuu")) {
     	            String sdt = jsonData.getString("sdt");
-    	            Model_KhachHang khachhang = DBKhachHang.getInstance().tracuu(sdt);
+    	            Model_NguoiMuon khachhang = DBNguoiMuon.getInstance().tracuu(sdt);
     	            if(khachhang != null) {
     	            	broadcast(client.getUserId(), khachhang.toJsonObject("tracuu_true"));
+    	            	
+        	            List<Model_PhieuMuon> list = DBMuonSach.getInstance().listPhieuMuon(khachhang.getMaKhachHang());
+        	            JSONArray jsonArray = new JSONArray();
+        	            for(Model_PhieuMuon phieu : list) {    	    
+        	            	jsonArray.put(phieu.toJsonObject("listSachMuon"));
+        	            }
+        	            JSONObject json = new JSONObject();
+        	            json.put("type", "listSachMuon");
+        	            json.put("jsonArray", jsonArray);
+    	            	broadcast(client.getUserId(), json);
     	            }
     	            else {
         	            JSONObject json = new JSONObject();
         	            json.put("type", "tracuu_false");
     	            	broadcast(client.getUserId(), json) ;
     	            }
+    	            
     	    	}
     	    	else if(jsonData.getString("type").equals("themThanhVien")) {
-    	            Model_KhachHang khachhang = new Model_KhachHang(jsonData);
-    	            Model_KhachHang khachHangMoi = DBKhachHang.getInstance().themThanhVien2(khachhang);
+    	    		Model_NguoiMuon khachhang = new Model_NguoiMuon(jsonData);
+    	    		Model_NguoiMuon khachHangMoi = DBNguoiMuon.getInstance().themThanhVien2(khachhang);
     	            broadcast(client.getUserId(), khachHangMoi.toJsonObject("themThanhVien")) ;
     	            main.getBody().getKhachhang().loadThanhVien();
     	    	}
     	    	else if(jsonData.getString("type").equals("xuatHoaDonKhachHang")) {
-    	            Model_KhachHang khachhang = new Model_KhachHang(jsonData);
-    	            DBKhachHang.getInstance().suaThongTin2(khachhang);
+    	            Model_NguoiMuon khachhang = new Model_NguoiMuon(jsonData);
+    	            DBNguoiMuon.getInstance().suaThongTin2(khachhang);
     	            main.getBody().getKhachhang().loadThanhVien();
     	    	}
     	    	else if(jsonData.getString("type").equals("xuatHoaDonSach")) {
     	    		JSONArray jsonArray = jsonData.getJSONArray("jsonArray");
-    	    		List<Model_DonMua> list = new ArrayList<>();
+    	    		List<Model_PhieuMuon> list = new ArrayList<>();
     	            for (int i = 0; i < jsonArray.length(); i++) {
+    	            	System.out.println(jsonArray.getJSONObject(i).toString());
     	                JSONObject json = jsonArray.getJSONObject(i);
-    	                Model_DonMua donmua = new Model_DonMua(json);
-    	                DBDoanhThu.getInstance().themDonMua(donmua);
-    	                DBSach.getInstance().updateSoLuong(donmua.getMaSach(), donmua.getSoluong());
+    	                Model_PhieuMuon phieumuon = new Model_PhieuMuon(json);
+    	                DBMuonSach.getInstance().themDonMua(phieumuon);
+    	                DBSach.getInstance().updateSoLuong(phieumuon.getMaSach());
     	            }
     	            main.getBody().getDoanhthu().loadDonMua();
     	            main.getBody().getKhosach().loadSach();
@@ -183,7 +195,30 @@ public class Service {
     	            }
     	            JSONObject json2 = new JSONObject();
     	            json2.put("type", "listSach");
-    	            json2.put("jsonArray", jsonArray);
+    	            json2.put("jsonArray", jsonArray2);
+	            	broadcast(client.getUserId(), json2);
+    	    	}    	
+    	    	else if(jsonData.getString("type").equals("traSach")) {
+    	    		JSONArray jsonArray = jsonData.getJSONArray("jsonArray");
+    	    		List<Model_PhieuMuon> list = new ArrayList<>();
+    	            for (int i = 0; i < jsonArray.length(); i++) {
+    	                JSONObject json = jsonArray.getJSONObject(i);
+    	                Model_PhieuMuon phieumuon = new Model_PhieuMuon(json);
+    	                DBMuonSach.getInstance().updateTrangThai(phieumuon);
+    	                DBSach.getInstance().updateSoLuongTraSach(phieumuon.getMaSach());
+    	            }
+    	            main.getBody().getDoanhthu().loadDonMua();
+    	            main.getBody().getKhosach().loadSach();
+    	            
+    	            
+    	            List<Model_Sach> list2 = DBSach.getInstance().loadSach();
+    	            JSONArray jsonArray2 = new JSONArray();
+    	            for(Model_Sach sach : list2) {    	    
+    	            	jsonArray2.put(sach.toJsonObject("listSach"));
+    	            }
+    	            JSONObject json2 = new JSONObject();
+    	            json2.put("type", "listSach");
+    	            json2.put("jsonArray", jsonArray2);
 	            	broadcast(client.getUserId(), json2);
     	    	}
 

@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import EnCode.ImageUtil;
-import model.Model_DonMua;
+import model.Model_PhieuMuon;
 import model.Model_Sach;
 import service.Service;
 import java.awt.SystemColor;
@@ -25,14 +25,17 @@ public class ChiTiet extends JPanel{
 	private JDialog dialog;
 	private JTextField tf_tenSach;
 	private JTextField tf_tacGia;
-	private JTextField tf_slTonKho;
-	private JTextField tf_donGia;
+	private JTextField tf_slHienCo;
 	private JLabel lb_anh;
 	private JButton bt_them;
 	private byte[] hinhAnh;
-	private JTextField tf_soluong;
 	private Model_Sach sach;
 	private JTextField tf_theloai;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
 	
 	public ChiTiet(JDialog dialog, Model_Sach sach) {
 		this.sach = sach;
@@ -74,31 +77,18 @@ public class ChiTiet extends JPanel{
 		tf_tacGia.setBounds(521, 164, 359, 40);
 		add(tf_tacGia);
 		
-		JLabel lblSlTnKho = new JLabel("SL tồn kho");
+		JLabel lblSlTnKho = new JLabel("SL hiện có");
 		lblSlTnKho.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblSlTnKho.setBounds(366, 220, 145, 30);
 		add(lblSlTnKho);
 		
-		tf_slTonKho = new JTextField(sach.getSlTonKho() + "");
-		tf_slTonKho.setBackground(new Color(255, 255, 255));
-		tf_slTonKho.setEditable(false);
-		tf_slTonKho.setFont(new Font("Tahoma", Font.BOLD, 24));
-		tf_slTonKho.setColumns(10);
-		tf_slTonKho.setBounds(521, 218, 359, 40);
-		add(tf_slTonKho);
-		
-		JLabel lblnGi = new JLabel("Đơn giá");
-		lblnGi.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblnGi.setBounds(366, 273, 145, 30);
-		add(lblnGi);
-		
-		tf_donGia = new JTextField(sach.getDonGia()+ "");
-		tf_donGia.setBackground(new Color(255, 255, 255));
-		tf_donGia.setEditable(false);
-		tf_donGia.setFont(new Font("Tahoma", Font.BOLD, 24));
-		tf_donGia.setColumns(10);
-		tf_donGia.setBounds(521, 271, 359, 40);
-		add(tf_donGia);
+		tf_slHienCo = new JTextField(sach.getSlHienCo() + "");
+		tf_slHienCo.setBackground(new Color(255, 255, 255));
+		tf_slHienCo.setEditable(false);
+		tf_slHienCo.setFont(new Font("Tahoma", Font.BOLD, 24));
+		tf_slHienCo.setColumns(10);
+		tf_slHienCo.setBounds(521, 218, 359, 40);
+		add(tf_slHienCo);
 		
 		lb_anh = new JLabel("");
         ImageUtil.setImageLabelFromBytes(sach.getHinhAnh(), lb_anh, 250, 250);
@@ -110,56 +100,18 @@ public class ChiTiet extends JPanel{
 		bt_them = new JButton("THÊM");
 		bt_them.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Integer.parseInt(tf_soluong.getText()) > 0) {
-			        long millis = System.currentTimeMillis();
-			        Date currentDate = new Date(millis);
-					Model_DonMua donmua = new Model_DonMua(sach.getMaSach(), 0, sach.getMaSach(), sach.getTen(), sach.getDonGia(),Integer.parseInt(tf_soluong.getText()), currentDate);
-					Service.getInstance().getMain().getBody().themDonMua(donmua, sach.getHinhAnh());
-					Service.getInstance().getMain().getMenuLeft().themDonMua(donmua);
-					Service.getInstance().getMain().getMenuLeft().getDonmuaList().add(donmua);
-					dialog.dispose();
-				}
+		        long millis = System.currentTimeMillis();
+		        Date currentDate = new Date(millis);
+				Service.getInstance().getMain().getBody().themDonMua(sach);
+//				Service.getInstance().getMain().getMenuLeft().themDonMua(donmua);
+				Service.getInstance().getMain().getMenuLeft().getSachList().add(sach);
+//				
+				dialog.dispose();
 			}
 		});
 		bt_them.setFont(new Font("Tahoma", Font.BOLD, 25));
 		bt_them.setBounds(384, 370, 235, 56);
 		add(bt_them);
-		
-		JButton bt_tru = new JButton("");
-		bt_tru.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(Integer.parseInt(tf_soluong.getText()) > 0) {
-					tf_soluong.setText((Integer.parseInt(tf_soluong.getText())-1) + "" );
-				}
-			}
-		});
-		bt_tru.setIcon(new ImageIcon(ChiTiet.class.getResource("/images/icon_tru.png")));
-		bt_tru.setFont(new Font("Tahoma", Font.BOLD, 10));
-		bt_tru.setBounds(70, 313, 40, 40);
-		add(bt_tru);
-		
-		JButton bt_cong = new JButton("");
-		bt_cong.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(Integer.parseInt(tf_soluong.getText()) < Integer.parseInt(tf_slTonKho.getText())) {
-					tf_soluong.setText((Integer.parseInt(tf_soluong.getText())+1) + "" );
-				}
-			}
-		});
-		bt_cong.setIcon(new ImageIcon(ChiTiet.class.getResource("/images/icon_cong.png")));
-		bt_cong.setFont(new Font("Tahoma", Font.BOLD, 10));
-		bt_cong.setBounds(280, 313, 40, 40);
-		add(bt_cong);
-		
-		tf_soluong = new JTextField();
-		tf_soluong.setHorizontalAlignment(SwingConstants.CENTER);
-		tf_soluong.setText("1");
-		tf_soluong.setBackground(new Color(255, 255, 255));
-		tf_soluong.setEditable(false);
-		tf_soluong.setFont(new Font("Tahoma", Font.BOLD, 33));
-		tf_soluong.setBounds(123, 313, 145, 40);
-		add(tf_soluong);
-		tf_soluong.setColumns(10);
 		
 		tf_theloai = new JTextField(sach.getTheLoai());
 		tf_theloai.setBackground(new Color(255, 255, 255));
@@ -170,6 +122,31 @@ public class ChiTiet extends JPanel{
 		add(tf_theloai);
 		
 		setBackground(new Color(150, 220, 248));
+		
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(ChiTiet.class.getResource("/images/icon_star.png")));
+		lblNewLabel.setBounds(70, 313, 30, 30);
+		add(lblNewLabel);
+		
+		lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(ChiTiet.class.getResource("/images/icon_star.png")));
+		lblNewLabel_1.setBounds(290, 313, 30, 30);
+		add(lblNewLabel_1);
+		
+		lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(ChiTiet.class.getResource("/images/icon_star.png")));
+		lblNewLabel_2.setBounds(182, 313, 30, 30);
+		add(lblNewLabel_2);
+		
+		lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(ChiTiet.class.getResource("/images/icon_star.png")));
+		lblNewLabel_3.setBounds(127, 313, 30, 30);
+		add(lblNewLabel_3);
+		
+		lblNewLabel_4 = new JLabel("");
+		lblNewLabel_4.setIcon(new ImageIcon(ChiTiet.class.getResource("/images/icon_star.png")));
+		lblNewLabel_4.setBounds(237, 313, 30, 30);
+		add(lblNewLabel_4);
 	}
 
 	public Model_Sach getSach() {

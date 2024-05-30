@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 import EnCode.ImageUtil;
-import model.Model_KhachHang;
+import model.Model_NguoiMuon;
 import model.Model_Sach;
 import service.Service;
 
@@ -24,9 +24,8 @@ public class ThemSach extends JPanel{
 	private JDialog dialog;
 	private JTextField tf_tenSach;
 	private JTextField tf_tacGia;
-	private JTextField tf_slTonKho;
-	private JTextField tf_slDaBan;
-	private JTextField tf_donGia;
+	private JTextField tf_slHienCo;
+	private JTextField tf_slDaMuon;
 	private JComboBox cb_theloai;
 	private JLabel lb_anh;
 	private JButton bt_them;
@@ -75,41 +74,29 @@ public class ThemSach extends JPanel{
 		tf_tacGia.setBounds(560, 217, 318, 30);
 		add(tf_tacGia);
 		
-		JLabel lblSlTnKho = new JLabel("SL tồn kho");
+		JLabel lblSlTnKho = new JLabel("SL hiện có");
 		lblSlTnKho.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblSlTnKho.setBounds(433, 265, 145, 30);
 		add(lblSlTnKho);
 		
-		tf_slTonKho = new JTextField();
-		tf_slTonKho.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_slTonKho.setText("");
-		tf_slTonKho.setColumns(10);
-		tf_slTonKho.setBounds(560, 265, 318, 30);
-		add(tf_slTonKho);
+		tf_slHienCo = new JTextField();
+		tf_slHienCo.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_slHienCo.setText("");
+		tf_slHienCo.setColumns(10);
+		tf_slHienCo.setBounds(560, 265, 318, 30);
+		add(tf_slHienCo);
 		
-		JLabel lblSlBn = new JLabel("SL đã bán");
+		JLabel lblSlBn = new JLabel("SL đã mượn");
 		lblSlBn.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblSlBn.setBounds(433, 312, 145, 30);
 		add(lblSlBn);
 		
-		tf_slDaBan = new JTextField();
-		tf_slDaBan.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_slDaBan.setText("");
-		tf_slDaBan.setColumns(10);
-		tf_slDaBan.setBounds(560, 312, 318, 30);
-		add(tf_slDaBan);
-		
-		JLabel lblnGi = new JLabel("Đơn giá");
-		lblnGi.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblnGi.setBounds(433, 360, 145, 30);
-		add(lblnGi);
-		
-		tf_donGia = new JTextField();
-		tf_donGia.setFont(new Font("Tahoma", Font.BOLD, 20));
-		tf_donGia.setText("");
-		tf_donGia.setColumns(10);
-		tf_donGia.setBounds(560, 360, 318, 30);
-		add(tf_donGia);
+		tf_slDaMuon = new JTextField();
+		tf_slDaMuon.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_slDaMuon.setText("");
+		tf_slDaMuon.setColumns(10);
+		tf_slDaMuon.setBounds(560, 312, 318, 30);
+		add(tf_slDaMuon);
 		
 		lb_anh = new JLabel("");
 		lb_anh.setIcon(new ImageIcon(ThemSach.class.getResource("/images/icon_image.png")));
@@ -131,13 +118,11 @@ public class ThemSach extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				String ten = tf_tenSach.getText();
 				String tacGia = tf_tacGia.getText();
-				int slTonKho = Integer.parseInt(tf_slTonKho.getText());
-				int slDaBan = Integer.parseInt(tf_slDaBan.getText());
+				int slHienCo = Integer.parseInt(tf_slHienCo.getText());
+				int slDaMuon = Integer.parseInt(tf_slDaMuon.getText());
 				String theLoai = cb_theloai.getSelectedItem().toString();
-				int donGia = Integer.parseInt(tf_donGia.getText());
-				
-				
-				Model_Sach sach = new Model_Sach(0, ten, theLoai, tacGia, slTonKho, slDaBan, donGia, hinhAnh);
+								
+				Model_Sach sach = new Model_Sach(0, ten, theLoai, tacGia, slHienCo, slDaMuon, hinhAnh);
 				Service.getInstance().getMain().getBody().getKhosach().themSach(sach);
 				dialog.dispose();
 			}

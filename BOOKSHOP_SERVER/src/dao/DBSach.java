@@ -15,14 +15,14 @@ import model.Model_Sach;
 public class DBSach {
 	private final Connection con;
 	private static DBSach instance;
-	private final String INSERT_SACH = "INSERT INTO sach (ten, TheLoai, TacGia, slTonKho, slDaBan, DonGia, HinhAnh) VALUES (?,?,?,?,?,?,?)";
-	private final String SELECT_SACH = "SELECT masach, ten, TheLoai, TacGia, slTonKho, slDaBan, DonGia, hinhAnh FROM sach";
-	private final String UPDATE_THONGTIN = "UPDATE sach SET ten=?, theloai=?, tacgia=?,sltonkho=?, sldaban=?, dongia=? WHERE masach=?";
+	private final String INSERT_SACH = "INSERT INTO sach (ten, TheLoai, TacGia, hienCo, daMuon, HinhAnh) VALUES (?,?,?,?,?,?)";
+	private final String SELECT_SACH = "SELECT masach, ten, TheLoai, TacGia, hienCo, daMuon, hinhAnh FROM sach";
+	private final String UPDATE_THONGTIN = "UPDATE sach SET ten=?, theloai=?, tacgia=?,hienCo=?, daMuon=? WHERE masach=?";
 	private final String DELETE_SACH = "DELETE FROM sach WHERE maSach=?";
 	private final String SELECT_IMAGE = "SELECT hinhanh FROM sach WHERE masach=?";
-	private final String SELECT_TIMKIEM_SACH = "SELECT masach, ten, TheLoai, TacGia, slTonKho, slDaBan, DonGia FROM sach WHERE ten LIKE ?";
-	private final String UPDATE_SOLUONG = "UPDATE sach SET sltonkho=?, sldaban=? WHERE masach=?";
-	private final String SELECT_TIMKIEM_MASACH = "SELECT masach, ten, TheLoai, TacGia, slTonKho, slDaBan, DonGia FROM sach WHERE masach=?";
+	private final String SELECT_TIMKIEM_SACH = "SELECT masach, ten, TheLoai, TacGia, hienCo, daMuon FROM sach WHERE ten LIKE ?";
+	private final String UPDATE_SOLUONG = "UPDATE sach SET hienCo=?, daMuon=? WHERE masach=?";
+	private final String SELECT_TIMKIEM_MASACH = "SELECT masach, ten, TheLoai, TacGia, hienCo, daMuon FROM sach WHERE masach=?";
 	
 	public static DBSach getInstance() {
 		if(instance == null) {
@@ -45,13 +45,12 @@ public class DBSach {
             	String ten = r.getString(2);
             	String theloai = r.getString(3);
             	String tacgia = r.getString(4);
-            	int tonkho = r.getInt(5);
-            	int daban = r.getInt(6);
-            	int dongia = r.getInt(7);
-                Blob blob = r.getBlob(8);
+            	int hienco = r.getInt(5);
+            	int damuon = r.getInt(6);
+                Blob blob = r.getBlob(7);
                 byte[] hinhAnh = blob.getBytes(1, (int) blob.length());
             	
-				Model_Sach sach = new Model_Sach(ma, ten, theloai, tacgia, tonkho, daban, dongia, hinhAnh);
+				Model_Sach sach = new Model_Sach(ma, ten, theloai, tacgia, hienco, damuon, hinhAnh);
             	list.add(sach);
             }
             r.close();
@@ -68,10 +67,9 @@ public class DBSach {
             p.setString(1, sach.getTen());
             p.setString(2, sach.getTheLoai());
             p.setString(3, sach.getTacGia());
-            p.setInt(4, sach.getSlTonKho());
-            p.setInt(5, sach.getSlDaBan());
-            p.setInt(6, sach.getDonGia());
-            p.setBytes(7, sach.getHinhAnh());
+            p.setInt(4, sach.getSlHienCo());
+            p.setInt(5, sach.getSlDaMuon());
+            p.setBytes(6, sach.getHinhAnh());
                         
             p.execute();
             ResultSet r = p.getGeneratedKeys();
@@ -95,10 +93,9 @@ public class DBSach {
             p.setString(1, sach.getTen());
             p.setString(2, sach.getTheLoai());
             p.setString(3, sach.getTacGia());
-            p.setInt(4, sach.getSlTonKho());
-            p.setInt(5, sach.getSlDaBan());
-            p.setInt(6, sach.getDonGia());
-            p.setInt(7, sach.getMaSach());
+            p.setInt(4, sach.getSlHienCo());
+            p.setInt(5, sach.getSlDaMuon());
+            p.setInt(6, sach.getMaSach());
                         
             p.execute();
             p.close();
@@ -153,11 +150,10 @@ public class DBSach {
             	String ten = r.getString(2);
             	String theloai = r.getString(3);
             	String tacgia = r.getString(4);
-            	int tonkho = r.getInt(5);
-            	int daban = r.getInt(6);
-            	int dongia = r.getInt(7);
+            	int hienco = r.getInt(5);
+            	int damuon = r.getInt(6);
             	
-				Model_Sach sach = new Model_Sach(ma, ten, theloai, tacgia, tonkho, daban, dongia, null);
+				Model_Sach sach = new Model_Sach(ma, ten, theloai, tacgia, hienco, damuon, null);
             	list.add(sach);
             }
             r.close();
@@ -179,11 +175,10 @@ public class DBSach {
             	String ten = r.getString(2);
             	String theloai = r.getString(3);
             	String tacgia = r.getString(4);
-            	int tonkho = r.getInt(5);
-            	int daban = r.getInt(6);
-            	int dongia = r.getInt(7);
+            	int hienco = r.getInt(5);
+            	int damuon = r.getInt(6);
             	
-				Model_Sach sach = new Model_Sach(ma, ten, theloai, tacgia, tonkho, daban, dongia, null);
+				Model_Sach sach = new Model_Sach(ma, ten, theloai, tacgia, hienco, damuon, null);
             	list.add(sach);
             }
             r.close();
@@ -204,11 +199,10 @@ public class DBSach {
             	String ten = r.getString(2);
             	String theloai = r.getString(3);
             	String tacgia = r.getString(4);
-            	int tonkho = r.getInt(5);
-            	int daban = r.getInt(6);
-            	int dongia = r.getInt(7);
+            	int hienco = r.getInt(5);
+            	int damuon = r.getInt(6);
             	
-				Model_Sach sach = new Model_Sach(ma, ten, theloai, tacgia, tonkho, daban, dongia, null);
+				Model_Sach sach = new Model_Sach(ma, ten, theloai, tacgia, hienco, damuon, null);
 				return sach;
             }
             r.close();
@@ -219,14 +213,32 @@ public class DBSach {
         return null;
 	}
 	
-	public Model_Sach updateSoLuong(int ma, int soluong) {
+	public Model_Sach updateSoLuong(int ma) {
 		Model_Sach sach = timkiemMaSach(ma);
-		int tonkho = sach.getSlTonKho();
-		int daban = sach.getSlDaBan();
+		int tonkho = sach.getSlHienCo();
+		int daban = sach.getSlDaMuon();
         try {
             PreparedStatement p = con.prepareStatement(UPDATE_SOLUONG);
-            p.setInt(1, tonkho-soluong);
-            p.setInt(2, daban+soluong);
+            p.setInt(1, tonkho-1);
+            p.setInt(2, daban+1);
+            p.setInt(3, ma);
+                        
+            p.execute();
+            p.close();
+         } catch (SQLException e) {
+          	e.printStackTrace();
+          }
+        return sach;
+	}
+	
+	public Model_Sach updateSoLuongTraSach(int ma) {
+		Model_Sach sach = timkiemMaSach(ma);
+		int tonkho = sach.getSlHienCo();
+		int daban = sach.getSlDaMuon();
+        try {
+            PreparedStatement p = con.prepareStatement(UPDATE_SOLUONG);
+            p.setInt(1, tonkho+1);
+            p.setInt(2, daban-1);
             p.setInt(3, ma);
                         
             p.execute();

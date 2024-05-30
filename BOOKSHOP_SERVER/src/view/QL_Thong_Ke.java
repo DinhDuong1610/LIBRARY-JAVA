@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import dao.DBDoanhThu;
+import dao.DBMuonSach;
 import swing.chart.Chart;
 import swing.chart.ModelChart;
 import javax.swing.JTabbedPane;
@@ -42,29 +42,17 @@ public class QL_Thong_Ke extends JPanel{
 		lb_logo.setHorizontalAlignment(SwingConstants.CENTER);
 		lb_logo.setBounds(370, 10, 442, 63);
 		add(lb_logo);	
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(65, 101, 1107, 664);
-		add(tabbedPane);
 
 		panel_soluong = new JPanel();
-		tabbedPane.addTab("Số lượng", panel_soluong);
-		
-		panel_doanhthu = new JPanel();
-		tabbedPane.addTab("Doanh thu", panel_doanhthu);
+		panel_soluong.setLocation(65, 100);
+		panel_soluong.setSize(1107, 658);
+		add(panel_soluong);
 		panel_soluong.setLayout(null);
-		panel_doanhthu.setLayout(null);
-			
-		chart_doanhthu = new Chart();
-		chart_doanhthu.setLocation(0, 0);
-		chart_doanhthu.setSize(1102, 637);
-		panel_doanhthu.add(chart_doanhthu);
-		
-		chart_doanhthu.addLegend("Doanh thu", new Color(38, 190, 51));
 			
 		chart_soluong = new Chart();
+		chart_soluong.setBackground(new Color(255, 255, 255));
 		chart_soluong.setLocation(0, 0);
-		chart_soluong.setSize(1102, 627);
+		chart_soluong.setSize(1107, 658);
 		panel_soluong.add(chart_soluong);
 		
 		bt_refresh = new JButton("");
@@ -77,27 +65,22 @@ public class QL_Thong_Ke extends JPanel{
 		bt_refresh.setBounds(586, 768, 85, 30);
 		add(bt_refresh);
 		
-		chart_soluong.addLegend("Số lượng", new Color(255, 132, 132));		
+		chart_soluong.addLegend("Số lượng sách được mượn", new Color(255, 223, 2));		
 		
 	}
 	
 	public void refresh() {
 		chart_soluong.clear();
-		chart_doanhthu.clear();
-		
 		thongke();
 	}
 	
 	public void thongke() {
         for(int i = 1; i <= 12; i++) {
         	Date[] dates = getDateRangeOfMonth(i);
-        	int soluong = DBDoanhThu.getInstance().thongkeSoLuong(dates[0], dates[1]);
-        	int doanhthu = DBDoanhThu.getInstance().thongkeDoanhThu(dates[0], dates[1]);
+        	int soluong = DBMuonSach.getInstance().thongkeSoLuong(dates[0], dates[1]);
         	chart_soluong.addData(new ModelChart(month[i], new double[]{soluong}));
-        	chart_doanhthu.addData(new ModelChart(month[i], new double[]{doanhthu}));
         }
         chart_soluong.start();
-        chart_doanhthu.start();
 	}
 	
     public static Date[] getDateRangeOfMonth(int month) {

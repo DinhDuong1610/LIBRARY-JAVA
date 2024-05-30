@@ -33,7 +33,7 @@ public class Main extends JFrame {
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(-5, 0, 1554, 850);
-		setTitle("BOOKSHOP");
+		setTitle("LIBMANA");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBounds(0 ,0, 1554, 840);
